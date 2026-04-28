@@ -48,6 +48,8 @@ interface DataTableProps<TData, TValue> {
   showCreateButton?: boolean;
   onCreate?: () => void;
   createButtonText?: string;
+  showTablePagination?: boolean;
+  title?: string;
   // Filter
   showFilter?: boolean;
   filterOptions?: Array<{ label: string; value: string }>;
@@ -65,6 +67,8 @@ export function DataTable<TData, TValue>({
   totalPages = 1,
   showSearch = false,
   totalCount = 0,
+  title,
+  showTablePagination = true,
   search,
   setSearch,
   showCreateButton = false,
@@ -104,7 +108,13 @@ export function DataTable<TData, TValue>({
       <div className="flex justify-between items-center my-3 w-full overflow-scroll no-scrollbar">
         <div className="min-w-sm">
           <p className="text-xl font-semibold">
-            Total items: <span className="text-lg">{totalCount}</span>
+            {title ? (
+              title
+            ) : (
+              <>
+                Total items: <span className="text-lg">{totalCount}</span>
+              </>
+            )}
           </p>
         </div>
         <div className="flex items-center gap-3 flex-1 justify-end">
@@ -227,9 +237,11 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="mt-4">
-        <DataTablePagination totalPages={totalPages} />
-      </div>
+      {showTablePagination && (
+        <div className="mt-4">
+          <DataTablePagination totalPages={totalPages} />
+        </div>
+      )}
     </div>
   );
 }

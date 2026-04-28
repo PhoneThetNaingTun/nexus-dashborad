@@ -49,4 +49,13 @@ export const END_POINTS = {
     APPROVE: `/admin/appointments/approve`,
     REJECT: `/admin/appointments/reject`,
   },
+  MEDICAL_RECORD: {
+    CREATE: `/medical-records/create`,
+    UPDATE: (id: string) => `/medical-records/${id}`,
+  },
+  PRESCRIPTION: {
+    CREATE: `/prescriptions/create`,
+    UPDATE: (id: string) => `/prescriptions/${id}`,
+    DELETE: (id: string) => `/prescriptions/${id}`,
+  },
 };

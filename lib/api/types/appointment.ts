@@ -1,4 +1,5 @@
 import { Doctor } from "./doctor";
+import { MedicalRecord } from "./medical-record";
 import { User } from "./user";
 
 export const APPOINTMENT_STATUS = {
@@ -27,6 +28,7 @@ export interface Appointment {
 
   doctor: Doctor;
   patient: User;
+  medicalRecord?: MedicalRecord;
 }
 
 export interface StatusUpdatePayload {

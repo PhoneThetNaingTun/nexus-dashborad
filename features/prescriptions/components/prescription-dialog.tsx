@@ -10,38 +10,42 @@ import {
 } from "@/components/ui/dialog";
 import { api } from "@/lib/api/api";
 import { getErrorMessage } from "@/lib/api/error";
-import { DoctorType } from "@/lib/api/types/doctor-type";
+import { Prescription } from "@/lib/api/types/prescription";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { DoctorTypeSchema } from "../schema/doctor-type.schema";
-import { DoctorTypeForm } from "./doctor-type-form";
+import { PrescriptionSchema } from "../schema/prescription.schema";
+import { PrescriptionForm } from "./prescription-form";
 
-interface DoctorTypeDialogProps {
-  data?: DoctorType;
+interface PrescriptionDialogProps {
+  data?: Prescription;
   mode: "create" | "update";
   buttonText?: string;
   showTriggerButton?: boolean;
   open?: boolean;
   setOpen?: (open: boolean) => void;
+  requireData: {
+    medicalRecordId: string;
+  };
 }
 
-export const DoctorTypeDialog = ({
+export const PrescriptionDialog = ({
   data,
   mode,
   buttonText,
   showTriggerButton = false,
   open,
   setOpen,
-}: DoctorTypeDialogProps) => {
+  requireData,
+}: PrescriptionDialogProps) => {
   const router = useRouter();
 
   const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const handleSubmit = async (value: DoctorTypeSchema) => {
+  const handleSubmit = async (value: PrescriptionSchema) => {
     setSubmitting(true);
     try {
       if (mode === "create") {
-        await api.doctor_type.create(value);
+        await api.prescription.create({ ...value, ...requireData });
       } else if (mode === "update" && data) {
         if (!data.id) {
           ShowToast({
@@ -52,7 +56,7 @@ export const DoctorTypeDialog = ({
           });
           return;
         }
-        await api.doctor_type.update(data.id, value);
+        await api.prescription.update(data.id, { ...value, ...requireData });
       }
 
       ShowToast({
@@ -88,7 +92,7 @@ export const DoctorTypeDialog = ({
           <DialogTitle>{mode === "create" ? "Create" : "Update"}</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <DoctorTypeForm
+          <PrescriptionForm
             onSubmit={handleSubmit}
             initialValue={data}
             disabled={submitting}

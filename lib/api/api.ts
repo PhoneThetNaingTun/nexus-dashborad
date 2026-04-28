@@ -1,9 +1,11 @@
 import { DoctorTypeSchema } from "@/features/doctor-types/schema/doctor-type.schema";
 import { ScheduleSchema } from "@/features/doctors/schedules/schema/scheduleSchema";
 import { DoctorSchema } from "@/features/doctors/schema/doctorSchema";
+import { MedicalRecordSchema } from "@/features/medical-records/schema/medical-records.schema";
 import { BrandSchema } from "@/features/medicines/brands/schema/brand-schema";
 import { CategorySchema } from "@/features/medicines/categories/schema/category-schema";
 import { MedicineSchema } from "@/features/medicines/schema/medicineSchema";
+import { PrescriptionSchema } from "@/features/prescriptions/schema/prescription.schema";
 import { END_POINTS } from "./config";
 import { baseAPi } from "./http";
 import {
@@ -16,7 +18,9 @@ import { Brand } from "./types/brand";
 import { Category } from "./types/category";
 import { Doctor } from "./types/doctor";
 import { DoctorType } from "./types/doctor-type";
+import { MedicalRecord } from "./types/medical-record";
 import { Medicine } from "./types/medicine";
+import { Prescription } from "./types/prescription";
 import { Schedule } from "./types/schedule";
 import { User } from "./types/user";
 
@@ -284,6 +288,39 @@ export const api = {
         END_POINTS.APPOINTMENT.REJECT,
         payload,
       );
+    },
+  },
+  // Medical Record
+  medicalRecord: {
+    create: async (payload: MedicalRecordSchema) => {
+      return await baseAPi.post<MedicalRecord>(
+        END_POINTS.MEDICAL_RECORD.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: MedicalRecordSchema) => {
+      return await baseAPi.patch<MedicalRecord>(
+        `${END_POINTS.MEDICAL_RECORD.UPDATE(id)}`,
+        payload,
+      );
+    },
+  },
+  // Prescriptions
+  prescription: {
+    create: async (payload: PrescriptionSchema) => {
+      return await baseAPi.post<Prescription>(
+        END_POINTS.PRESCRIPTION.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: PrescriptionSchema) => {
+      return await baseAPi.patch<Prescription>(
+        `${END_POINTS.PRESCRIPTION.UPDATE(id)}`,
+        payload,
+      );
+    },
+    delete: async (id: string) => {
+      return await baseAPi.delete(`${END_POINTS.PRESCRIPTION.DELETE(id)}`);
     },
   },
 };
