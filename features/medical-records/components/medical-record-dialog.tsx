@@ -1,3 +1,4 @@
+"use client";
 import { ShowToast } from "@/components/common/show-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,38 +11,48 @@ import {
 } from "@/components/ui/dialog";
 import { api } from "@/lib/api/api";
 import { getErrorMessage } from "@/lib/api/error";
-import { DoctorType } from "@/lib/api/types/doctor-type";
+import { MedicalRecord } from "@/lib/api/types/medical-record";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { DoctorTypeSchema } from "../schema/doctor-type.schema";
-import { DoctorTypeForm } from "./doctor-type-form";
+import { MedicalRecordSchema } from "../schema/medical-records.schema";
+import { MedicalRecordForm } from "./medical-record-form";
 
-interface DoctorTypeDialogProps {
-  data?: DoctorType;
+interface MedicalRecordProps {
+  data?: MedicalRecord;
   mode: "create" | "update";
-  buttonText?: string;
   showTriggerButton?: boolean;
   open?: boolean;
   setOpen?: (open: boolean) => void;
+  requireData: {
+    patientId: string;
+    doctorId: string;
+    appointmentId: string;
+  };
+  buttonText?: string;
 }
 
-export const DoctorTypeDialog = ({
+export const MedicalRecordDialog = ({
   data,
   mode,
-  buttonText,
   showTriggerButton = false,
   open,
   setOpen,
-}: DoctorTypeDialogProps) => {
+  requireData,
+  buttonText,
+}: MedicalRecordProps) => {
   const router = useRouter();
 
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  const handleSubmit = async (value: DoctorTypeSchema) => {
+  const handleSubmit = async (value: MedicalRecordSchema) => {
     setSubmitting(true);
     try {
       if (mode === "create") {
-        await api.doctor_type.create(value);
+        await api.medicalRecord.create({
+          ...value,
+          ...requireData,
+        });
       } else if (mode === "update" && data) {
         if (!data.id) {
           ShowToast({
@@ -52,7 +63,7 @@ export const DoctorTypeDialog = ({
           });
           return;
         }
-        await api.doctor_type.update(data.id, value);
+        await api.medicalRecord.update(data.id, value);
       }
 
       ShowToast({
@@ -62,6 +73,7 @@ export const DoctorTypeDialog = ({
         type: "success",
       });
       setOpen && setOpen(false);
+      showTriggerButton && setOpenDialog(false);
       router.refresh();
     } catch (error) {
       const errorMessage = getErrorMessage(error);
@@ -75,10 +87,14 @@ export const DoctorTypeDialog = ({
     }
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={showTriggerButton ? openDialog : open}
+      onOpenChange={showTriggerButton ? setOpenDialog : setOpen}
+    >
       {showTriggerButton && (
         <DialogTrigger asChild>
           <Button>
+            {" "}
             {buttonText ? buttonText : mode === "create" ? "Create" : "Update"}
           </Button>
         </DialogTrigger>
@@ -88,7 +104,7 @@ export const DoctorTypeDialog = ({
           <DialogTitle>{mode === "create" ? "Create" : "Update"}</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <DoctorTypeForm
+          <MedicalRecordForm
             onSubmit={handleSubmit}
             initialValue={data}
             disabled={submitting}

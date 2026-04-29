@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RefreshCcwIcon } from "lucide-react";
-import { useEffect } from "react";
 
 export default function ErrorPage({
   error,
@@ -18,10 +17,6 @@ export default function ErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
   return (
     <div className="w-full h-screen flex justify-center items-center ">
       <Card className="w-full max-w-2xl">

@@ -15,9 +15,10 @@ import { useState } from "react";
 interface DatePickerProps {
   date?: string;
   onDateChange?: (date: string) => void;
+  disabled?: boolean;
 }
 
-export function DatePicker({ date, onDateChange }: DatePickerProps) {
+export function DatePicker({ date, onDateChange, disabled }: DatePickerProps) {
   const [value, setValue] = useState<Date | undefined>(
     date ? new Date(date) : undefined,
   );
@@ -39,6 +40,7 @@ export function DatePicker({ date, onDateChange }: DatePickerProps) {
           variant="outline"
           data-empty={!date}
           className="w-70 justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+          disabled={disabled}
         >
           <CalendarIcon />
           {date ? formatDate(date) : <span>Pick a date</span>}

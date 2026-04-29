@@ -17,15 +17,19 @@ interface AppointmentViewProps {
   isTodayAppointment?: boolean;
 }
 
-export const AppointmentView = ({ data, pagination,isTodayAppointment = false }: AppointmentViewProps) => {
+export const AppointmentView = ({
+  data,
+  pagination,
+  isTodayAppointment = false,
+}: AppointmentViewProps) => {
   const [{ search, status, date }, setParams] = useAppointmentSearchParams();
 
   const handleFilterChange = (value: AppointmentStatus) => {
-    setParams({ status: value });
+    setParams({ status: value, pageIndex: 0 });
   };
 
   const handleDateChange = (date: string) => {
-    setParams({ date });
+    setParams({ date, pageIndex: 0 });
   };
   const filterOptions = Object.values(APPOINTMENT_STATUS).map((status) => ({
     label: status,
