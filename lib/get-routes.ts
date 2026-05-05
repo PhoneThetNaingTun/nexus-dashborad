@@ -1,6 +1,7 @@
 import { Role, Roles } from "@/lib/api/types/user";
 import {
   ClipboardClock,
+  ClipboardPlusIcon,
   FileChartPieIcon,
   PillIcon,
   Stethoscope,
@@ -60,9 +61,26 @@ const MedicineRoute = {
   ],
 };
 
+const MedicalPackageRoute = {
+  title: "Medical Packages",
+  url: "#",
+  icon: ClipboardPlusIcon,
+
+  items: [
+    {
+      title: "Medical Packages",
+      url: "/medical-packages",
+    },
+    {
+      title: "Medical Package item",
+      url: "/medical-package-items",
+    },
+  ],
+};
+
 const adminRoutes = {
   general: [TodayAppointmentRoute],
-  navMain: [AppointmentRoute, DoctorRoute, MedicineRoute],
+  navMain: [AppointmentRoute, DoctorRoute, MedicineRoute, MedicalPackageRoute],
 };
 
 const doctorRoutes = {

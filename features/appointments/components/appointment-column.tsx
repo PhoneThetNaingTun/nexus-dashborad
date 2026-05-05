@@ -8,7 +8,11 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
-import { Appointment, AppointmentStatus } from "@/lib/api/types/appointment";
+import { Appointment } from "@/lib/api/types/appointment";
+import {
+  getAppointmentBadgeIcon,
+  getAppointmentBadgeVariant,
+} from "../libs/utils";
 import { AppointmentCellAction } from "./appointment-cell-action";
 
 export const appointmentColumns: ColumnDef<Appointment>[] = [
@@ -47,20 +51,11 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const getBadgeVariant = (status: AppointmentStatus) => {
-        switch (status) {
-          case "PENDING":
-            return "warning";
-          case "COMPLETED":
-            return "success";
-          case "CANCELLED":
-            return "destructive";
-          default:
-            return "default";
-        }
-      };
       return (
-        <Badge variant={getBadgeVariant(row.original.status)}>
+        <Badge
+          variant={getAppointmentBadgeVariant(row.original.status)}
+          icon={getAppointmentBadgeIcon(row.original.status)}
+        >
           {row.original.status}
         </Badge>
       );

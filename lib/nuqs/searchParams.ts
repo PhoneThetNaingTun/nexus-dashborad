@@ -10,6 +10,8 @@ import {
   doctorTypeParsers,
   doctorTypeUrlKeys,
   doctorUrlKey,
+  medicalPackageItemParsers,
+  medicalPackageItemUrlKey,
   medicineParsers,
   medicineUrlKey,
   paginationParsers,
@@ -99,6 +101,15 @@ export const useScheduleSearchParams = () => {
 export const useAppointmentSearchParams = () => {
   return useQueryStates(appointmentParsers, {
     urlKeys: appointmentUrlKeys,
+    ...paramOptions,
+  });
+};
+
+// Medical package item
+
+export const useMedicalPackageItemSearchParams = () => {
+  return useQueryStates(medicalPackageItemParsers, {
+    urlKeys: medicalPackageItemUrlKey,
     ...paramOptions,
   });
 };
