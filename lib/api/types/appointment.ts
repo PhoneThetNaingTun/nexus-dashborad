@@ -7,6 +7,7 @@ export const APPOINTMENT_STATUS = {
   CONFIRMED: "CONFIRMED",
   CANCELLED: "CANCELLED",
   COMPLETED: "COMPLETED",
+  CHECKING: "CHECKING",
 } as const;
 
 export type AppointmentStatus =
@@ -37,3 +38,7 @@ export interface StatusUpdatePayload {
 
 export interface AppointmentApprovePayload extends StatusUpdatePayload {}
 export interface AppointmentRejectPayload extends StatusUpdatePayload {}
+
+export interface AppointmentUpdateStatusPayload {
+  status: AppointmentStatus;
+}

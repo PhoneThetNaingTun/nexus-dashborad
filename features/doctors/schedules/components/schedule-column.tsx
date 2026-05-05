@@ -41,7 +41,9 @@ export const scheduleColumn: ColumnDef<Schedule>[] = [
       const isActive = row.original.isActive;
 
       return (
-        <Badge className={cn(isActive ? "bg-green-500" : "bg-red-500")}>
+        <Badge
+          className={cn("text-white", isActive ? "bg-green-500" : "bg-red-500")}
+        >
           {isActive ? "Available" : "Not Available"}
         </Badge>
       );

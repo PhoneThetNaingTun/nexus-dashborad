@@ -18,7 +18,6 @@ const TodayAppointmentPage = async ({
       page: pageIndex,
       pageSize: pageSize,
       search,
-      status: "CONFIRMED",
       date: formatDate(new Date()),
     },
   });

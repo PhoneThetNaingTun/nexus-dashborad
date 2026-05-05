@@ -143,3 +143,20 @@ export const appointmentUrlKeys = {
 export const loadAppointmentSearchParams = createLoader(appointmentParsers, {
   urlKeys: appointmentUrlKeys,
 });
+
+// Medical package item
+export const medicalPackageItemParsers = {
+  ...paginationParsers,
+  ...searchParsers,
+};
+
+export const medicalPackageItemUrlKey = {
+  ...paginationUrlKeys,
+  ...searchUrlKey,
+};
+export const loadMedicalPackageItemSearchParams = createLoader(
+  medicalPackageItemParsers,
+  {
+    urlKeys: medicalPackageItemUrlKey,
+  },
+);

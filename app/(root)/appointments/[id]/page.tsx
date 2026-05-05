@@ -31,6 +31,9 @@ const AppointmentDetail = async ({
           <Profile user={data.patient} className="w-60 h-60" />
         </div>
         <div className="flex-1 space-y-5">
+          <div className="flex justify-end my-4">
+            <AppointmentActionButton data={data} />
+          </div>
           <InfoGrid
             title="Appointment Info"
             columns={3}
@@ -65,9 +68,7 @@ const AppointmentDetail = async ({
               { label: "Bio", value: data.doctor.bio },
             ]}
           />
-          <div className="flex justify-end my-4">
-            <AppointmentActionButton data={data} />
-          </div>
+
           {data.medicalRecord ? (
             <div>
               <MedicalRecordView data={data.medicalRecord} />

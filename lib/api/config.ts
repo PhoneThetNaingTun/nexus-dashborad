@@ -48,6 +48,7 @@ export const END_POINTS = {
     GET: (id: string) => `/admin/appointments/${id}`,
     APPROVE: `/admin/appointments/approve`,
     REJECT: `/admin/appointments/reject`,
+    UPDATE_STATUS: (id: string) => `/admin/appointments/${id}/status`,
   },
   MEDICAL_RECORD: {
     CREATE: `/medical-records/create`,
@@ -57,5 +58,11 @@ export const END_POINTS = {
     CREATE: `/prescriptions/create`,
     UPDATE: (id: string) => `/prescriptions/${id}`,
     DELETE: (id: string) => `/prescriptions/${id}`,
+  },
+  MEDICAL_PACKAGE_ITEM: {
+    LIST: `/medical-package-items/list`,
+    CREATE: `/medical-package-items/create`,
+    UPDATE: (id: string) => `/medical-package-items/${id}`,
+    DELETE: (id: string) => `/medical-package-items/${id}`,
   },
 };

@@ -1,6 +1,7 @@
 import { DoctorTypeSchema } from "@/features/doctor-types/schema/doctor-type.schema";
 import { ScheduleSchema } from "@/features/doctors/schedules/schema/scheduleSchema";
 import { DoctorSchema } from "@/features/doctors/schema/doctorSchema";
+import { MedicalPackageItemSchema } from "@/features/medical-package-items/schema/medical-package-item.schema";
 import { MedicalRecordSchema } from "@/features/medical-records/schema/medical-records.schema";
 import { BrandSchema } from "@/features/medicines/brands/schema/brand-schema";
 import { CategorySchema } from "@/features/medicines/categories/schema/category-schema";
@@ -13,11 +14,13 @@ import {
   AppointmentApprovePayload,
   AppointmentRejectPayload,
   AppointmentStatus,
+  AppointmentUpdateStatusPayload,
 } from "./types/appointment";
 import { Brand } from "./types/brand";
 import { Category } from "./types/category";
 import { Doctor } from "./types/doctor";
 import { DoctorType } from "./types/doctor-type";
+import { MedicalPackageItem } from "./types/medical-package-item";
 import { MedicalRecord } from "./types/medical-record";
 import { Medicine } from "./types/medicine";
 import { Prescription } from "./types/prescription";
@@ -35,6 +38,9 @@ export const api = {
     },
     refresh: async () => {
       return await baseAPi.post(END_POINTS.AUTH.REFRESH);
+    },
+    logout: async () => {
+      return await baseAPi.post(END_POINTS.AUTH.LOGOUT);
     },
   },
   // Doctor Type api
@@ -283,6 +289,15 @@ export const api = {
         payload,
       );
     },
+    updateStatus: async (
+      id: string,
+      payload: AppointmentUpdateStatusPayload,
+    ) => {
+      return await baseAPi.post<Appointment>(
+        END_POINTS.APPOINTMENT.UPDATE_STATUS(id),
+        payload,
+      );
+    },
     reject: async (payload: AppointmentRejectPayload) => {
       return await baseAPi.post<Appointment>(
         END_POINTS.APPOINTMENT.REJECT,
@@ -321,6 +336,45 @@ export const api = {
     },
     delete: async (id: string) => {
       return await baseAPi.delete(`${END_POINTS.PRESCRIPTION.DELETE(id)}`);
+    },
+  },
+
+  // Medical package item api
+  medicalPackageItem: {
+    list: async ({
+      params,
+    }: {
+      params: { page?: number; pageSize?: number; search?: string };
+    }) => {
+      const searchParams = new URLSearchParams();
+
+      if (params.page !== null && params.page !== undefined)
+        searchParams.set("page", params.page.toString());
+      if (params.pageSize !== null && params.pageSize !== undefined)
+        searchParams.set("pageSize", params.pageSize.toString());
+      if (params.search) searchParams.set("search", params.search.toString());
+
+      return await baseAPi.get<MedicalPackageItem[]>(
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.LIST}?${searchParams.toString()}`,
+      );
+    },
+
+    create: async (payload: MedicalPackageItemSchema) => {
+      return await baseAPi.post<MedicalPackageItem>(
+        END_POINTS.MEDICAL_PACKAGE_ITEM.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: MedicalPackageItemSchema) => {
+      return await baseAPi.patch<MedicalPackageItem>(
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.UPDATE(id)}`,
+        payload,
+      );
+    },
+    delete: async (id: string) => {
+      return await baseAPi.delete(
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.DELETE(id)}`,
+      );
     },
   },
 };
