@@ -12,6 +12,8 @@ import {
   doctorUrlKey,
   medicalPackageItemParsers,
   medicalPackageItemUrlKey,
+  medicalPackageParsers,
+  medicalPackageUrlKey,
   medicineParsers,
   medicineUrlKey,
   paginationParsers,
@@ -110,6 +112,15 @@ export const useAppointmentSearchParams = () => {
 export const useMedicalPackageItemSearchParams = () => {
   return useQueryStates(medicalPackageItemParsers, {
     urlKeys: medicalPackageItemUrlKey,
+    ...paramOptions,
+  });
+};
+
+// Medical package
+
+export const useMedicalPackageSearchParams = () => {
+  return useQueryStates(medicalPackageParsers, {
+    urlKeys: medicalPackageUrlKey,
     ...paramOptions,
   });
 };
