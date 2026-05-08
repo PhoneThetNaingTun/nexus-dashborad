@@ -65,4 +65,10 @@ export const END_POINTS = {
     UPDATE: (id: string) => `/medical-package-items/${id}`,
     DELETE: (id: string) => `/medical-package-items/${id}`,
   },
+  MEDICAL_PACKAGE: {
+    LIST: `/medical-packages/list`,
+    CREATE: `/medical-packages/create`,
+    UPDATE: (id: string) => `/medical-packages/${id}`,
+    DELETE: (id: string) => `/medical-packages/${id}`,
+  },
 };

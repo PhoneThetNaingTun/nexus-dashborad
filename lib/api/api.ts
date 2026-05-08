@@ -2,6 +2,7 @@ import { DoctorTypeSchema } from "@/features/doctor-types/schema/doctor-type.sch
 import { ScheduleSchema } from "@/features/doctors/schedules/schema/scheduleSchema";
 import { DoctorSchema } from "@/features/doctors/schema/doctorSchema";
 import { MedicalPackageItemSchema } from "@/features/medical-package-items/schema/medical-package-item.schema";
+import { MedicalPackageSchema } from "@/features/medical-packages/schema/medical-package.schema";
 import { MedicalRecordSchema } from "@/features/medical-records/schema/medical-records.schema";
 import { BrandSchema } from "@/features/medicines/brands/schema/brand-schema";
 import { CategorySchema } from "@/features/medicines/categories/schema/category-schema";
@@ -20,6 +21,7 @@ import { Brand } from "./types/brand";
 import { Category } from "./types/category";
 import { Doctor } from "./types/doctor";
 import { DoctorType } from "./types/doctor-type";
+import { MedicalPackage } from "./types/medical-package";
 import { MedicalPackageItem } from "./types/medical-package-item";
 import { MedicalRecord } from "./types/medical-record";
 import { Medicine } from "./types/medicine";
@@ -375,6 +377,42 @@ export const api = {
       return await baseAPi.delete(
         `${END_POINTS.MEDICAL_PACKAGE_ITEM.DELETE(id)}`,
       );
+    },
+  },
+  // Medical package api
+  medicalPackage: {
+    list: async ({
+      params,
+    }: {
+      params: { page?: number; pageSize?: number; search?: string };
+    }) => {
+      const searchParams = new URLSearchParams();
+
+      if (params.page !== null && params.page !== undefined)
+        searchParams.set("page", params.page.toString());
+      if (params.pageSize !== null && params.pageSize !== undefined)
+        searchParams.set("pageSize", params.pageSize.toString());
+      if (params.search) searchParams.set("search", params.search.toString());
+
+      return await baseAPi.get<MedicalPackage[]>(
+        `${END_POINTS.MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`,
+      );
+    },
+
+    create: async (payload: MedicalPackageSchema) => {
+      return await baseAPi.post<MedicalPackage>(
+        END_POINTS.MEDICAL_PACKAGE.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: MedicalPackageSchema) => {
+      return await baseAPi.patch<MedicalPackage>(
+        `${END_POINTS.MEDICAL_PACKAGE.UPDATE(id)}`,
+        payload,
+      );
+    },
+    delete: async (id: string) => {
+      return await baseAPi.delete(`${END_POINTS.MEDICAL_PACKAGE.DELETE(id)}`);
     },
   },
 };

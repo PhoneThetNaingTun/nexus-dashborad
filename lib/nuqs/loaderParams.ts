@@ -160,3 +160,20 @@ export const loadMedicalPackageItemSearchParams = createLoader(
     urlKeys: medicalPackageItemUrlKey,
   },
 );
+
+// Medical package
+export const medicalPackageParsers = {
+  ...paginationParsers,
+  ...searchParsers,
+};
+
+export const medicalPackageUrlKey = {
+  ...paginationUrlKeys,
+  ...searchUrlKey,
+};
+export const loadMedicalPackageSearchParams = createLoader(
+  medicalPackageParsers,
+  {
+    urlKeys: medicalPackageUrlKey,
+  },
+);
