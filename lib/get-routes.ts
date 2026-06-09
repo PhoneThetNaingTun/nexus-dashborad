@@ -3,6 +3,7 @@ import {
   ClipboardClock,
   ClipboardPlusIcon,
   FileChartPieIcon,
+  HistoryIcon,
   PillIcon,
   Stethoscope,
 } from "lucide-react";
@@ -61,6 +62,12 @@ const MedicineRoute = {
   ],
 };
 
+const MedicalPackageHistory = {
+  title: "Medical Package History",
+  url: "/medical-package-history",
+  icon: HistoryIcon,
+};
+
 const MedicalPackageRoute = {
   title: "Medical Packages",
   url: "#",
@@ -79,7 +86,7 @@ const MedicalPackageRoute = {
 };
 
 const adminRoutes = {
-  general: [TodayAppointmentRoute],
+  general: [TodayAppointmentRoute, MedicalPackageHistory],
   navMain: [AppointmentRoute, DoctorRoute, MedicineRoute, MedicalPackageRoute],
 };
 

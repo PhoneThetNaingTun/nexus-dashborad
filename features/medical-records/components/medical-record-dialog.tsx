@@ -23,12 +23,14 @@ interface MedicalRecordProps {
   showTriggerButton?: boolean;
   open?: boolean;
   setOpen?: (open: boolean) => void;
+  disabled?: boolean;
   requireData: {
     patientId: string;
     doctorId: string;
-    appointmentId: string;
+    appointmentId?: string;
   };
   buttonText?: string;
+  userPackageId?: string;
 }
 
 export const MedicalRecordDialog = ({
@@ -39,6 +41,8 @@ export const MedicalRecordDialog = ({
   setOpen,
   requireData,
   buttonText,
+  userPackageId,
+  disabled,
 }: MedicalRecordProps) => {
   const router = useRouter();
 
@@ -52,13 +56,13 @@ export const MedicalRecordDialog = ({
         await api.medicalRecord.create({
           ...value,
           ...requireData,
+          userPackageId,
         });
       } else if (mode === "update" && data) {
         if (!data.id) {
           ShowToast({
             title: "Error",
             description: "Id not found",
-
             type: "error",
           });
           return;
@@ -92,7 +96,7 @@ export const MedicalRecordDialog = ({
       onOpenChange={showTriggerButton ? setOpenDialog : setOpen}
     >
       {showTriggerButton && (
-        <DialogTrigger asChild>
+        <DialogTrigger asChild disabled={disabled}>
           <Button>
             {" "}
             {buttonText ? buttonText : mode === "create" ? "Create" : "Update"}

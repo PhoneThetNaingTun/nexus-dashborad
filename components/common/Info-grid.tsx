@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Separator } from "../ui/separator";
 
 interface InfoGridProps {
   options: Array<{ label: string; value?: string }>;
@@ -24,6 +25,7 @@ export const InfoGrid = ({ options, title, columns = 3 }: InfoGridProps) => {
           <h2 className="text-xl font-semibold">{title}</h2>
         </CardTitle>
       </CardHeader>
+      <Separator />
       <CardContent>
         <div className={`grid ${gridColsMap[columns]} gap-5`}>
           {options.map((option) => (

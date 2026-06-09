@@ -1,3 +1,4 @@
+import { Doctor } from "./doctor";
 import { Prescription } from "./prescription";
 
 export interface MedicalRecord {
@@ -5,6 +6,7 @@ export interface MedicalRecord {
   appointmentId: string;
   patientId: string;
   doctorId: string;
+  doctor: Doctor;
   diagnosis: string;
   symptoms: string;
   weight?: number;

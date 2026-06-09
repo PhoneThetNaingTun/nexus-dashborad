@@ -10,6 +10,8 @@ import {
   doctorTypeParsers,
   doctorTypeUrlKeys,
   doctorUrlKey,
+  medicalPackageHistoryParsers,
+  medicalPackageHistoryUrlKey,
   medicalPackageItemParsers,
   medicalPackageItemUrlKey,
   medicalPackageParsers,
@@ -121,6 +123,13 @@ export const useMedicalPackageItemSearchParams = () => {
 export const useMedicalPackageSearchParams = () => {
   return useQueryStates(medicalPackageParsers, {
     urlKeys: medicalPackageUrlKey,
+    ...paramOptions,
+  });
+};
+
+export const useMedicalPackageHistorySearchParams = () => {
+  return useQueryStates(medicalPackageHistoryParsers, {
+    urlKeys: medicalPackageHistoryUrlKey,
     ...paramOptions,
   });
 };

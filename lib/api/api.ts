@@ -28,6 +28,7 @@ import { Medicine } from "./types/medicine";
 import { Prescription } from "./types/prescription";
 import { Schedule } from "./types/schedule";
 import { User } from "./types/user";
+import { PackageStatus, UserPackage } from "./types/user-package";
 
 export const api = {
   // Auth api
@@ -413,6 +414,51 @@ export const api = {
     },
     delete: async (id: string) => {
       return await baseAPi.delete(`${END_POINTS.MEDICAL_PACKAGE.DELETE(id)}`);
+    },
+  },
+  // User package api
+  userPackage: {
+    list: async ({
+      params,
+    }: {
+      params: {
+        page?: number;
+        pageSize?: number;
+        search?: string;
+        purchaseDate?: string;
+        status?: PackageStatus;
+      };
+    }) => {
+      const searchParams = new URLSearchParams();
+
+      if (params.page !== null && params.page !== undefined)
+        searchParams.set("page", params.page.toString());
+      if (params.pageSize !== null && params.pageSize !== undefined)
+        searchParams.set("pageSize", params.pageSize.toString());
+      if (params.search) searchParams.set("search", params.search.toString());
+      if (params.purchaseDate)
+        searchParams.set("purchaseDate", params.purchaseDate.toString());
+      if (params.status) searchParams.set("status", params.status.toString());
+
+      return await baseAPi.get<UserPackage[]>(
+        `${END_POINTS.USER_MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`,
+      );
+    },
+
+    getById: async (id: string) => {
+      return await baseAPi.get<UserPackage>(
+        END_POINTS.USER_MEDICAL_PACKAGE.GET(id),
+      );
+    },
+    confirm: async (medicalPackageId: string) => {
+      return baseAPi.post<UserPackage>(
+        `${END_POINTS.USER_MEDICAL_PACKAGE.CONFIRM(medicalPackageId)}`,
+      );
+    },
+    reject: async (medicalPackageId: string) => {
+      return baseAPi.post<UserPackage>(
+        `${END_POINTS.USER_MEDICAL_PACKAGE.REJECT(medicalPackageId)}`,
+      );
     },
   },
 };

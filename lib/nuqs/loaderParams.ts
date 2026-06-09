@@ -6,6 +6,7 @@ import {
   parseAsStringLiteral,
 } from "nuqs/server";
 import { APPOINTMENT_STATUS } from "../api/types/appointment";
+import { PACKAGE_STATUS } from "../api/types/user-package";
 
 // Pagination
 
@@ -175,5 +176,28 @@ export const loadMedicalPackageSearchParams = createLoader(
   medicalPackageParsers,
   {
     urlKeys: medicalPackageUrlKey,
+  },
+);
+// Medical package history
+
+export const medicalPackageHistoryStatusParsers = {
+  status: parseAsStringLiteral(Object.values(PACKAGE_STATUS)),
+};
+
+export const medicalPackageHistoryParsers = {
+  ...paginationParsers,
+  ...searchParsers,
+  ...medicalPackageHistoryStatusParsers,
+};
+
+export const medicalPackageHistoryUrlKey = {
+  ...paginationUrlKeys,
+  ...searchUrlKey,
+  status: "status",
+};
+export const loadMedicalPackageHistorySearchParams = createLoader(
+  medicalPackageHistoryParsers,
+  {
+    urlKeys: medicalPackageHistoryUrlKey,
   },
 );
