@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Appointment } from "@/lib/api/types/appointment";
-import { EllipsisVerticalIcon, EyeIcon, TrashIcon } from "lucide-react";
+import { EllipsisVerticalIcon, EyeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface AppointmentCellActionProps {
@@ -62,9 +62,6 @@ export const AppointmentCellAction = ({ data }: AppointmentCellActionProps) => {
               onClick={() => router.push(`/appointments/${data.id}`)}
             >
               <EyeIcon /> View
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <TrashIcon /> Delete
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

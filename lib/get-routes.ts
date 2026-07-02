@@ -1,7 +1,9 @@
 import { Role, Roles } from "@/lib/api/types/user";
 import {
   ClipboardClock,
+  ClipboardPlusIcon,
   FileChartPieIcon,
+  HistoryIcon,
   PillIcon,
   Stethoscope,
 } from "lucide-react";
@@ -60,9 +62,32 @@ const MedicineRoute = {
   ],
 };
 
+const MedicalPackageHistory = {
+  title: "Medical Package History",
+  url: "/medical-package-history",
+  icon: HistoryIcon,
+};
+
+const MedicalPackageRoute = {
+  title: "Medical Packages",
+  url: "#",
+  icon: ClipboardPlusIcon,
+
+  items: [
+    {
+      title: "Medical Packages",
+      url: "/medical-packages",
+    },
+    {
+      title: "Medical Package item",
+      url: "/medical-package-items",
+    },
+  ],
+};
+
 const adminRoutes = {
-  general: [TodayAppointmentRoute],
-  navMain: [AppointmentRoute, DoctorRoute, MedicineRoute],
+  general: [TodayAppointmentRoute, MedicalPackageHistory],
+  navMain: [AppointmentRoute, DoctorRoute, MedicineRoute, MedicalPackageRoute],
 };
 
 const doctorRoutes = {

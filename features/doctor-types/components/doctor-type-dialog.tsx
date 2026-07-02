@@ -19,6 +19,7 @@ import { DoctorTypeForm } from "./doctor-type-form";
 interface DoctorTypeDialogProps {
   data?: DoctorType;
   mode: "create" | "update";
+  buttonText?: string;
   showTriggerButton?: boolean;
   open?: boolean;
   setOpen?: (open: boolean) => void;
@@ -27,6 +28,7 @@ interface DoctorTypeDialogProps {
 export const DoctorTypeDialog = ({
   data,
   mode,
+  buttonText,
   showTriggerButton = false,
   open,
   setOpen,
@@ -75,8 +77,10 @@ export const DoctorTypeDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {showTriggerButton && (
-        <DialogTrigger>
-          <Button>{mode === "create" ? "Create" : "Update"}</Button>
+        <DialogTrigger asChild>
+          <Button>
+            {buttonText ? buttonText : mode === "create" ? "Create" : "Update"}
+          </Button>
         </DialogTrigger>
       )}
       <DialogContent className="w-full max-w-xl!">

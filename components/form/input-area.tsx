@@ -38,7 +38,11 @@ export const InputArea = <T extends FieldValues>({
         return (
           <Field data-invalid={fieldState.error}>
             <FieldContent>
-              {label && <FieldLabel>{label}</FieldLabel>}
+              {label && (
+                <FieldLabel>
+                  {label} {required && "*"}
+                </FieldLabel>
+              )}
               {description && (
                 <FieldDescription>{description}</FieldDescription>
               )}

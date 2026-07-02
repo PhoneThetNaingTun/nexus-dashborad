@@ -16,6 +16,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { api } from "@/lib/api/api";
+import { getErrorMessage } from "@/lib/api/error";
 import {
   BadgeCheckIcon,
   BellIcon,
@@ -24,6 +26,8 @@ import {
   LogOutIcon,
   SparklesIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ShowToast } from "./common/show-toast";
 
 export function NavUser({
   user,
@@ -35,6 +39,28 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await api.auth.logout();
+
+      ShowToast({
+        title: "Error",
+        description: "Logout successfully",
+        type: "success",
+      });
+      router.replace("/login");
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+
+      ShowToast({
+        title: "Error",
+        description: errorMessage,
+        type: "error",
+      });
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -101,7 +127,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOutIcon />
               Log out
             </DropdownMenuItem>

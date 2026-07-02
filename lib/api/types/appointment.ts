@@ -1,4 +1,5 @@
 import { Doctor } from "./doctor";
+import { MedicalRecord } from "./medical-record";
 import { User } from "./user";
 
 export const APPOINTMENT_STATUS = {
@@ -6,6 +7,7 @@ export const APPOINTMENT_STATUS = {
   CONFIRMED: "CONFIRMED",
   CANCELLED: "CANCELLED",
   COMPLETED: "COMPLETED",
+  CHECKING: "CHECKING",
 } as const;
 
 export type AppointmentStatus =
@@ -27,6 +29,7 @@ export interface Appointment {
 
   doctor: Doctor;
   patient: User;
+  medicalRecord?: MedicalRecord;
 }
 
 export interface StatusUpdatePayload {
@@ -35,3 +38,7 @@ export interface StatusUpdatePayload {
 
 export interface AppointmentApprovePayload extends StatusUpdatePayload {}
 export interface AppointmentRejectPayload extends StatusUpdatePayload {}
+
+export interface AppointmentUpdateStatusPayload {
+  status: AppointmentStatus;
+}

@@ -48,5 +48,33 @@ export const END_POINTS = {
     GET: (id: string) => `/admin/appointments/${id}`,
     APPROVE: `/admin/appointments/approve`,
     REJECT: `/admin/appointments/reject`,
+    UPDATE_STATUS: (id: string) => `/admin/appointments/${id}/status`,
+  },
+  MEDICAL_RECORD: {
+    CREATE: `/medical-records/create`,
+    UPDATE: (id: string) => `/medical-records/${id}`,
+  },
+  PRESCRIPTION: {
+    CREATE: `/prescriptions/create`,
+    UPDATE: (id: string) => `/prescriptions/${id}`,
+    DELETE: (id: string) => `/prescriptions/${id}`,
+  },
+  MEDICAL_PACKAGE_ITEM: {
+    LIST: `/medical-package-items/list`,
+    CREATE: `/medical-package-items/create`,
+    UPDATE: (id: string) => `/medical-package-items/${id}`,
+    DELETE: (id: string) => `/medical-package-items/${id}`,
+  },
+  MEDICAL_PACKAGE: {
+    LIST: `/medical-packages/list`,
+    CREATE: `/medical-packages/create`,
+    UPDATE: (id: string) => `/medical-packages/${id}`,
+    DELETE: (id: string) => `/medical-packages/${id}`,
+  },
+  USER_MEDICAL_PACKAGE: {
+    LIST: `/user-packages/list`,
+    GET: (id: string) => `/user-packages/${id}`,
+    CONFIRM: (id: string) => `/user-packages/confirm/${id}`,
+    REJECT: (id: string) => `/user-packages/reject/${id}`,
   },
 };

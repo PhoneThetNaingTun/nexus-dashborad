@@ -40,7 +40,11 @@ export const SwitchField = <T extends FieldValues>({
                   disabled={disabled}
                   required={required}
                 />
-                {label && <FieldLabel>{label}</FieldLabel>}
+                {label && (
+                  <FieldLabel>
+                    {label} {required && "*"}
+                  </FieldLabel>
+                )}
               </div>
               {description && (
                 <FieldDescription>{description}</FieldDescription>

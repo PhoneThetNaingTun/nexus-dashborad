@@ -1,9 +1,13 @@
 import { DoctorTypeSchema } from "@/features/doctor-types/schema/doctor-type.schema";
 import { ScheduleSchema } from "@/features/doctors/schedules/schema/scheduleSchema";
 import { DoctorSchema } from "@/features/doctors/schema/doctorSchema";
+import { MedicalPackageItemSchema } from "@/features/medical-package-items/schema/medical-package-item.schema";
+import { MedicalPackageSchema } from "@/features/medical-packages/schema/medical-package.schema";
+import { MedicalRecordSchema } from "@/features/medical-records/schema/medical-records.schema";
 import { BrandSchema } from "@/features/medicines/brands/schema/brand-schema";
 import { CategorySchema } from "@/features/medicines/categories/schema/category-schema";
 import { MedicineSchema } from "@/features/medicines/schema/medicineSchema";
+import { PrescriptionSchema } from "@/features/prescriptions/schema/prescription.schema";
 import { END_POINTS } from "./config";
 import { baseAPi } from "./http";
 import {
@@ -11,14 +15,20 @@ import {
   AppointmentApprovePayload,
   AppointmentRejectPayload,
   AppointmentStatus,
+  AppointmentUpdateStatusPayload,
 } from "./types/appointment";
 import { Brand } from "./types/brand";
 import { Category } from "./types/category";
 import { Doctor } from "./types/doctor";
 import { DoctorType } from "./types/doctor-type";
+import { MedicalPackage } from "./types/medical-package";
+import { MedicalPackageItem } from "./types/medical-package-item";
+import { MedicalRecord } from "./types/medical-record";
 import { Medicine } from "./types/medicine";
+import { Prescription } from "./types/prescription";
 import { Schedule } from "./types/schedule";
 import { User } from "./types/user";
+import { PackageStatus, UserPackage } from "./types/user-package";
 
 export const api = {
   // Auth api
@@ -31,6 +41,9 @@ export const api = {
     },
     refresh: async () => {
       return await baseAPi.post(END_POINTS.AUTH.REFRESH);
+    },
+    logout: async () => {
+      return await baseAPi.post(END_POINTS.AUTH.LOGOUT);
     },
   },
   // Doctor Type api
@@ -279,10 +292,172 @@ export const api = {
         payload,
       );
     },
+    updateStatus: async (
+      id: string,
+      payload: AppointmentUpdateStatusPayload,
+    ) => {
+      return await baseAPi.post<Appointment>(
+        END_POINTS.APPOINTMENT.UPDATE_STATUS(id),
+        payload,
+      );
+    },
     reject: async (payload: AppointmentRejectPayload) => {
       return await baseAPi.post<Appointment>(
         END_POINTS.APPOINTMENT.REJECT,
         payload,
+      );
+    },
+  },
+  // Medical Record
+  medicalRecord: {
+    create: async (payload: MedicalRecordSchema) => {
+      return await baseAPi.post<MedicalRecord>(
+        END_POINTS.MEDICAL_RECORD.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: MedicalRecordSchema) => {
+      return await baseAPi.patch<MedicalRecord>(
+        `${END_POINTS.MEDICAL_RECORD.UPDATE(id)}`,
+        payload,
+      );
+    },
+  },
+  // Prescriptions
+  prescription: {
+    create: async (payload: PrescriptionSchema) => {
+      return await baseAPi.post<Prescription>(
+        END_POINTS.PRESCRIPTION.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: PrescriptionSchema) => {
+      return await baseAPi.patch<Prescription>(
+        `${END_POINTS.PRESCRIPTION.UPDATE(id)}`,
+        payload,
+      );
+    },
+    delete: async (id: string) => {
+      return await baseAPi.delete(`${END_POINTS.PRESCRIPTION.DELETE(id)}`);
+    },
+  },
+
+  // Medical package item api
+  medicalPackageItem: {
+    list: async ({
+      params,
+    }: {
+      params: { page?: number; pageSize?: number; search?: string };
+    }) => {
+      const searchParams = new URLSearchParams();
+
+      if (params.page !== null && params.page !== undefined)
+        searchParams.set("page", params.page.toString());
+      if (params.pageSize !== null && params.pageSize !== undefined)
+        searchParams.set("pageSize", params.pageSize.toString());
+      if (params.search) searchParams.set("search", params.search.toString());
+
+      return await baseAPi.get<MedicalPackageItem[]>(
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.LIST}?${searchParams.toString()}`,
+      );
+    },
+
+    create: async (payload: MedicalPackageItemSchema) => {
+      return await baseAPi.post<MedicalPackageItem>(
+        END_POINTS.MEDICAL_PACKAGE_ITEM.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: MedicalPackageItemSchema) => {
+      return await baseAPi.patch<MedicalPackageItem>(
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.UPDATE(id)}`,
+        payload,
+      );
+    },
+    delete: async (id: string) => {
+      return await baseAPi.delete(
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.DELETE(id)}`,
+      );
+    },
+  },
+  // Medical package api
+  medicalPackage: {
+    list: async ({
+      params,
+    }: {
+      params: { page?: number; pageSize?: number; search?: string };
+    }) => {
+      const searchParams = new URLSearchParams();
+
+      if (params.page !== null && params.page !== undefined)
+        searchParams.set("page", params.page.toString());
+      if (params.pageSize !== null && params.pageSize !== undefined)
+        searchParams.set("pageSize", params.pageSize.toString());
+      if (params.search) searchParams.set("search", params.search.toString());
+
+      return await baseAPi.get<MedicalPackage[]>(
+        `${END_POINTS.MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`,
+      );
+    },
+
+    create: async (payload: MedicalPackageSchema) => {
+      return await baseAPi.post<MedicalPackage>(
+        END_POINTS.MEDICAL_PACKAGE.CREATE,
+        payload,
+      );
+    },
+    update: async (id: string, payload: MedicalPackageSchema) => {
+      return await baseAPi.patch<MedicalPackage>(
+        `${END_POINTS.MEDICAL_PACKAGE.UPDATE(id)}`,
+        payload,
+      );
+    },
+    delete: async (id: string) => {
+      return await baseAPi.delete(`${END_POINTS.MEDICAL_PACKAGE.DELETE(id)}`);
+    },
+  },
+  // User package api
+  userPackage: {
+    list: async ({
+      params,
+    }: {
+      params: {
+        page?: number;
+        pageSize?: number;
+        search?: string;
+        purchaseDate?: string;
+        status?: PackageStatus;
+      };
+    }) => {
+      const searchParams = new URLSearchParams();
+
+      if (params.page !== null && params.page !== undefined)
+        searchParams.set("page", params.page.toString());
+      if (params.pageSize !== null && params.pageSize !== undefined)
+        searchParams.set("pageSize", params.pageSize.toString());
+      if (params.search) searchParams.set("search", params.search.toString());
+      if (params.purchaseDate)
+        searchParams.set("purchaseDate", params.purchaseDate.toString());
+      if (params.status) searchParams.set("status", params.status.toString());
+
+      return await baseAPi.get<UserPackage[]>(
+        `${END_POINTS.USER_MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`,
+      );
+    },
+
+    getById: async (id: string) => {
+      return await baseAPi.get<UserPackage>(
+        END_POINTS.USER_MEDICAL_PACKAGE.GET(id),
+      );
+    },
+    confirm: async (medicalPackageId: string) => {
+      return baseAPi.post<UserPackage>(
+        `${END_POINTS.USER_MEDICAL_PACKAGE.CONFIRM(medicalPackageId)}`,
+      );
+    },
+    reject: async (medicalPackageId: string) => {
+      return baseAPi.post<UserPackage>(
+        `${END_POINTS.USER_MEDICAL_PACKAGE.REJECT(medicalPackageId)}`,
       );
     },
   },

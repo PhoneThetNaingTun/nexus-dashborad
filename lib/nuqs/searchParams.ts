@@ -10,6 +10,12 @@ import {
   doctorTypeParsers,
   doctorTypeUrlKeys,
   doctorUrlKey,
+  medicalPackageHistoryParsers,
+  medicalPackageHistoryUrlKey,
+  medicalPackageItemParsers,
+  medicalPackageItemUrlKey,
+  medicalPackageParsers,
+  medicalPackageUrlKey,
   medicineParsers,
   medicineUrlKey,
   paginationParsers,
@@ -99,6 +105,31 @@ export const useScheduleSearchParams = () => {
 export const useAppointmentSearchParams = () => {
   return useQueryStates(appointmentParsers, {
     urlKeys: appointmentUrlKeys,
+    ...paramOptions,
+  });
+};
+
+// Medical package item
+
+export const useMedicalPackageItemSearchParams = () => {
+  return useQueryStates(medicalPackageItemParsers, {
+    urlKeys: medicalPackageItemUrlKey,
+    ...paramOptions,
+  });
+};
+
+// Medical package
+
+export const useMedicalPackageSearchParams = () => {
+  return useQueryStates(medicalPackageParsers, {
+    urlKeys: medicalPackageUrlKey,
+    ...paramOptions,
+  });
+};
+
+export const useMedicalPackageHistorySearchParams = () => {
+  return useQueryStates(medicalPackageHistoryParsers, {
+    urlKeys: medicalPackageHistoryUrlKey,
     ...paramOptions,
   });
 };
