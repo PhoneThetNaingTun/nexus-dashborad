@@ -77,4 +77,10 @@ export const END_POINTS = {
     CONFIRM: (id: string) => `/user-packages/confirm/${id}`,
     REJECT: (id: string) => `/user-packages/reject/${id}`,
   },
+  REPORT: {
+    report: "/reports/sales",
+  },
+  DASHBOARD: {
+    SUMMARY: "/dashboard/summary",
+  },
 };

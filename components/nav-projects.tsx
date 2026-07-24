@@ -9,6 +9,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function NavGeneral({
   projects,
@@ -19,7 +21,8 @@ export function NavGeneral({
     icon: LucideIcon;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  useSidebar();
+  const pathname = usePathname();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -27,15 +30,14 @@ export function NavGeneral({
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                {item.icon && <item.icon className="me-2" />}
+            <SidebarMenuButton asChild isActive={pathname === item.url}>
+              <Link href={item.url}>
+                {item.icon && <item.icon />}
                 <span>{item.title}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
-       
       </SidebarMenu>
     </SidebarGroup>
   );

@@ -29,8 +29,19 @@ import { Prescription } from "./types/prescription";
 import { Schedule } from "./types/schedule";
 import { User } from "./types/user";
 import { PackageStatus, UserPackage } from "./types/user-package";
+import { SalesReport } from "./types/reports";
+import { DashboardSummary } from "./types/dashboard";
 
 export const api = {
+  dashboard: {
+    summary: async ({ date }: { date: string }) => {
+      const searchParams = new URLSearchParams({ date });
+
+      return await baseAPi.get<DashboardSummary>(
+        `${END_POINTS.DASHBOARD.SUMMARY}?${searchParams.toString()}`
+      );
+    },
+  },
   // Auth api
   auth: {
     login: async <T>(payload: any) => {
@@ -62,19 +73,19 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<DoctorType[]>(
-        `${END_POINTS.DOCTOR_TYPE.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.DOCTOR_TYPE.LIST}?${searchParams.toString()}`
       );
     },
     create: async (payload: DoctorTypeSchema) => {
       return await baseAPi.post<DoctorType>(
         END_POINTS.DOCTOR_TYPE.CREATE,
-        payload,
+        payload
       );
     },
     update: async (id: string, payload: DoctorTypeSchema) => {
       return await baseAPi.patch<DoctorType>(
         `${END_POINTS.DOCTOR_TYPE.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -97,7 +108,7 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<Brand[]>(
-        `${END_POINTS.BRAND.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.BRAND.LIST}?${searchParams.toString()}`
       );
     },
 
@@ -107,7 +118,7 @@ export const api = {
     update: async (id: string, payload: BrandSchema) => {
       return await baseAPi.patch<Brand>(
         `${END_POINTS.BRAND.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -131,7 +142,7 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<Category[]>(
-        `${END_POINTS.CATEGORY.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.CATEGORY.LIST}?${searchParams.toString()}`
       );
     },
 
@@ -141,7 +152,7 @@ export const api = {
     update: async (id: string, payload: CategorySchema) => {
       return await baseAPi.patch<Brand>(
         `${END_POINTS.CATEGORY.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -164,7 +175,7 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<Medicine[]>(
-        `${END_POINTS.MEDICINE.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.MEDICINE.LIST}?${searchParams.toString()}`
       );
     },
 
@@ -174,7 +185,7 @@ export const api = {
     update: async (id: string, payload: MedicineSchema) => {
       return await baseAPi.patch<Medicine>(
         `${END_POINTS.MEDICINE.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -197,7 +208,7 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<Doctor[]>(
-        `${END_POINTS.DOCTOR.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.DOCTOR.LIST}?${searchParams.toString()}`
       );
     },
     getById: async (id: string) => {
@@ -209,7 +220,7 @@ export const api = {
     update: async (id: string, payload: DoctorSchema) => {
       return await baseAPi.patch<Doctor>(
         `${END_POINTS.DOCTOR.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -234,7 +245,7 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<Schedule[]>(
-        `${END_POINTS.SCHEDULE.LIST(doctorId)}?${searchParams.toString()}`,
+        `${END_POINTS.SCHEDULE.LIST(doctorId)}?${searchParams.toString()}`
       );
     },
     getById: async (id: string) => {
@@ -243,13 +254,13 @@ export const api = {
     create: async (doctorId: string, payload: ScheduleSchema) => {
       return await baseAPi.post<Schedule>(
         END_POINTS.SCHEDULE.CREATE(doctorId),
-        payload,
+        payload
       );
     },
     update: async (id: string, payload: ScheduleSchema) => {
       return await baseAPi.patch<Schedule>(
         `${END_POINTS.SCHEDULE.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -280,7 +291,7 @@ export const api = {
       if (params.date) searchParams.set("date", params.date.toString());
 
       return await baseAPi.get<Appointment[]>(
-        `${END_POINTS.APPOINTMENT.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.APPOINTMENT.LIST}?${searchParams.toString()}`
       );
     },
     getById: async (id: string) => {
@@ -289,22 +300,22 @@ export const api = {
     approve: async (payload: AppointmentApprovePayload) => {
       return await baseAPi.post<Appointment>(
         END_POINTS.APPOINTMENT.APPROVE,
-        payload,
+        payload
       );
     },
     updateStatus: async (
       id: string,
-      payload: AppointmentUpdateStatusPayload,
+      payload: AppointmentUpdateStatusPayload
     ) => {
       return await baseAPi.post<Appointment>(
         END_POINTS.APPOINTMENT.UPDATE_STATUS(id),
-        payload,
+        payload
       );
     },
     reject: async (payload: AppointmentRejectPayload) => {
       return await baseAPi.post<Appointment>(
         END_POINTS.APPOINTMENT.REJECT,
-        payload,
+        payload
       );
     },
   },
@@ -313,13 +324,13 @@ export const api = {
     create: async (payload: MedicalRecordSchema) => {
       return await baseAPi.post<MedicalRecord>(
         END_POINTS.MEDICAL_RECORD.CREATE,
-        payload,
+        payload
       );
     },
     update: async (id: string, payload: MedicalRecordSchema) => {
       return await baseAPi.patch<MedicalRecord>(
         `${END_POINTS.MEDICAL_RECORD.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
   },
@@ -328,13 +339,13 @@ export const api = {
     create: async (payload: PrescriptionSchema) => {
       return await baseAPi.post<Prescription>(
         END_POINTS.PRESCRIPTION.CREATE,
-        payload,
+        payload
       );
     },
     update: async (id: string, payload: PrescriptionSchema) => {
       return await baseAPi.patch<Prescription>(
         `${END_POINTS.PRESCRIPTION.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -358,25 +369,25 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<MedicalPackageItem[]>(
-        `${END_POINTS.MEDICAL_PACKAGE_ITEM.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.LIST}?${searchParams.toString()}`
       );
     },
 
     create: async (payload: MedicalPackageItemSchema) => {
       return await baseAPi.post<MedicalPackageItem>(
         END_POINTS.MEDICAL_PACKAGE_ITEM.CREATE,
-        payload,
+        payload
       );
     },
     update: async (id: string, payload: MedicalPackageItemSchema) => {
       return await baseAPi.patch<MedicalPackageItem>(
         `${END_POINTS.MEDICAL_PACKAGE_ITEM.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
       return await baseAPi.delete(
-        `${END_POINTS.MEDICAL_PACKAGE_ITEM.DELETE(id)}`,
+        `${END_POINTS.MEDICAL_PACKAGE_ITEM.DELETE(id)}`
       );
     },
   },
@@ -396,20 +407,20 @@ export const api = {
       if (params.search) searchParams.set("search", params.search.toString());
 
       return await baseAPi.get<MedicalPackage[]>(
-        `${END_POINTS.MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`
       );
     },
 
     create: async (payload: MedicalPackageSchema) => {
       return await baseAPi.post<MedicalPackage>(
         END_POINTS.MEDICAL_PACKAGE.CREATE,
-        payload,
+        payload
       );
     },
     update: async (id: string, payload: MedicalPackageSchema) => {
       return await baseAPi.patch<MedicalPackage>(
         `${END_POINTS.MEDICAL_PACKAGE.UPDATE(id)}`,
-        payload,
+        payload
       );
     },
     delete: async (id: string) => {
@@ -441,23 +452,41 @@ export const api = {
       if (params.status) searchParams.set("status", params.status.toString());
 
       return await baseAPi.get<UserPackage[]>(
-        `${END_POINTS.USER_MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`,
+        `${END_POINTS.USER_MEDICAL_PACKAGE.LIST}?${searchParams.toString()}`
       );
     },
 
     getById: async (id: string) => {
       return await baseAPi.get<UserPackage>(
-        END_POINTS.USER_MEDICAL_PACKAGE.GET(id),
+        END_POINTS.USER_MEDICAL_PACKAGE.GET(id)
       );
     },
     confirm: async (medicalPackageId: string) => {
       return baseAPi.post<UserPackage>(
-        `${END_POINTS.USER_MEDICAL_PACKAGE.CONFIRM(medicalPackageId)}`,
+        `${END_POINTS.USER_MEDICAL_PACKAGE.CONFIRM(medicalPackageId)}`
       );
     },
     reject: async (medicalPackageId: string) => {
       return baseAPi.post<UserPackage>(
-        `${END_POINTS.USER_MEDICAL_PACKAGE.REJECT(medicalPackageId)}`,
+        `${END_POINTS.USER_MEDICAL_PACKAGE.REJECT(medicalPackageId)}`
+      );
+    },
+  },
+  // report
+  report: {
+    getReports: async ({
+      startDate,
+      endDate,
+    }: {
+      startDate?: string;
+      endDate?: string;
+    }) => {
+      const searchParams = new URLSearchParams();
+      if (startDate) searchParams.set("startDate", startDate);
+      if (endDate) searchParams.set("endDate", endDate);
+
+      return await baseAPi.get<SalesReport>(
+        `${END_POINTS.REPORT.report}?${searchParams.toString()}`
       );
     },
   },

@@ -6,7 +6,9 @@ import {
   HistoryIcon,
   PillIcon,
   Stethoscope,
+  LayoutDashboardIcon,
 } from "lucide-react";
+import { ReportsRoute } from "./reports-route";
 
 const AppointmentRoute = {
   title: "Appointments",
@@ -19,6 +21,11 @@ const AppointmentRoute = {
       url: "/appointments",
     },
   ],
+};
+const DashboardRoute = {
+  title: "Dashboard",
+  url: "/",
+  icon: LayoutDashboardIcon,
 };
 const TodayAppointmentRoute = {
   title: "Today's Appointments",
@@ -86,12 +93,17 @@ const MedicalPackageRoute = {
 };
 
 const adminRoutes = {
-  general: [TodayAppointmentRoute, MedicalPackageHistory],
+  general: [
+    DashboardRoute,
+    TodayAppointmentRoute,
+    MedicalPackageHistory,
+    ReportsRoute,
+  ],
   navMain: [AppointmentRoute, DoctorRoute, MedicineRoute, MedicalPackageRoute],
 };
 
 const doctorRoutes = {
-  general: [TodayAppointmentRoute],
+  general: [DashboardRoute, TodayAppointmentRoute],
   navMain: [AppointmentRoute],
 };
 
