@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { getPublicImageUrl } from "@/lib/image-url";
 
 interface ProfileProps {
   user: {
@@ -11,7 +12,8 @@ interface ProfileProps {
 }
 
 export const Profile = ({ user, className }: ProfileProps) => {
-  const profileImage = user.image ? user.image : "/images/user-fallback.png";
+  const profileImage =
+    getPublicImageUrl(user.image) || "/images/user-fallback.png";
 
   return (
     <Image

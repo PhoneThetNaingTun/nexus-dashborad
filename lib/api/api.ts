@@ -492,7 +492,7 @@ export const api = {
   },
   uploads: {
     image: async (formData: FormData) => {
-      return await baseAPi.post<{ url: string; filename: string }>(
+      return await baseAPi.post<{ key: string; message: string }>(
         END_POINTS.UPLOADS.IMAGE,
         formData
       );

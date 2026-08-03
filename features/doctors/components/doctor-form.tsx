@@ -33,6 +33,7 @@ export const DoctorForm = ({
       name: initialValue?.user.name || "",
       email: initialValue?.user.email || "",
       ...initialValue,
+      image_url: initialValue?.user.image || "",
     },
   });
 

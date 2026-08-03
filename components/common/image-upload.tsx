@@ -6,6 +6,7 @@ import { Upload, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api/api";
+import { getPublicImageUrl } from "@/lib/image-url";
 
 interface ImageUploadProps {
   value?: string;
@@ -13,27 +14,10 @@ interface ImageUploadProps {
   label?: string;
 }
 
-const getPublicImageUrl = (url: string) => {
-  if (!url.startsWith("/")) return url;
-
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const fallbackOrigin =
-    typeof window !== "undefined" ? window.location.origin : undefined;
-
-  try {
-    const origin = apiUrl?.startsWith("http")
-      ? new URL(apiUrl).origin
-      : fallbackOrigin;
-    return new URL(url, origin).toString();
-  } catch {
-    return url;
-  }
-};
-
 export const ImageUpload = ({ value, onChange, label }: ImageUploadProps) => {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(
-    value ? getPublicImageUrl(value) : null
+    value ? (getPublicImageUrl(value) ?? null) : null,
   );
 
   const onDrop = useCallback(
@@ -53,24 +37,25 @@ export const ImageUpload = ({ value, onChange, label }: ImageUploadProps) => {
 
         const response = await api.uploads.image(formData);
 
-        const uploadUrl = response.data.url;
+        const imageKey = response.data.key;
 
-        if (!uploadUrl) {
-          throw new Error("Upload failed: No URL returned from server");
+        if (!imageKey) {
+          throw new Error("Upload failed: No image key returned from server");
         }
 
-        const publicUrl = getPublicImageUrl(uploadUrl);
-        onChange(publicUrl);
-        setPreview(publicUrl);
+        onChange(imageKey);
+        setPreview(getPublicImageUrl(imageKey) ?? null);
       } catch (error: unknown) {
         console.error("Image upload error:", error);
-        alert(error instanceof Error ? error.message : "Failed to upload image");
+        alert(
+          error instanceof Error ? error.message : "Failed to upload image",
+        );
         setPreview(null);
       } finally {
         setUploading(false);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -101,7 +86,7 @@ export const ImageUpload = ({ value, onChange, label }: ImageUploadProps) => {
           isDragActive
             ? "border-primary bg-primary/5"
             : "border-muted-foreground/20 hover:border-primary/50",
-          preview && "border-solid"
+          preview && "border-solid",
         )}
       >
         <input {...getInputProps()} />

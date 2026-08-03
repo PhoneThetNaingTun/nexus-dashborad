@@ -4,6 +4,7 @@ import { NumberCellColumn } from "@/components/common/number-cell-column";
 import { Doctor } from "@/lib/api/types/doctor";
 import { formatCurrency } from "@/lib/currency-formatter";
 import { formatDate } from "@/lib/date";
+import { getPublicImageUrl } from "@/lib/image-url";
 import { ColumnDef } from "@tanstack/react-table";
 import { DoctorCellAction } from "./doctor-cell-action";
 
@@ -18,7 +19,7 @@ export const doctorColumn: ColumnDef<Doctor>[] = [
     accessorKey: "user.image",
     header: "Image",
     cell: ({ row }) => {
-      const image = row.original.user.image;
+      const image = getPublicImageUrl(row.original.user.image);
       return (
         <div className="flex items-center justify-center">
           <img

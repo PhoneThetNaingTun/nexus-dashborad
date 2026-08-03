@@ -4,6 +4,7 @@ import { DoctorDialog } from "@/features/doctors/components/doctor-dialog";
 import { ScheduleView } from "@/features/doctors/schedules/components/shcedule-view";
 import { api } from "@/lib/api/api";
 import { formatCurrency } from "@/lib/currency-formatter";
+import { getPublicImageUrl } from "@/lib/image-url";
 import { loadScheduleSearchParams } from "@/lib/nuqs/loaderParams";
 import { SearchParams } from "nuqs/server";
 
@@ -32,11 +33,11 @@ const DoctorDetail = async ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <img
-            src={data.user.image || "/public/images/placeholder-avatar.png"}
+            src={getPublicImageUrl(data.user.image) || "/images/user-fallback.png"}
             alt={data.user.name}
             className="h-20 w-20 rounded-full object-cover border-2 border-muted"
             onError={(e) => {
-              (e.currentTarget.src = "/public/images/placeholder-avatar.png");
+              e.currentTarget.src = "/images/user-fallback.png";
             }}
           />
           <div>
