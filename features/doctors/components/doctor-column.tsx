@@ -15,6 +15,25 @@ export const doctorColumn: ColumnDef<Doctor>[] = [
     },
   },
   {
+    accessorKey: "user.image",
+    header: "Image",
+    cell: ({ row }) => {
+      const image = row.original.user.image;
+      return (
+        <div className="flex items-center justify-center">
+          <img
+            src={image || "/images/user-fallback.png"}
+            alt={row.original.user.name}
+            className="h-8 w-8 rounded-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = "/images/user-fallback.png";
+            }}
+          />
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "user",
     header: "Name",
     cell: ({ row }) => {

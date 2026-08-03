@@ -13,6 +13,7 @@ export const doctorSchema = (showPassword: boolean) =>
       : z.string().optional(),
     bio: z.string().optional(),
     fee: z.number().min(0),
+    image_url: z.string().optional(),
   });
 
 export type DoctorSchema = z.infer<ReturnType<typeof doctorSchema>>;

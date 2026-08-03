@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { doctorSchema, DoctorSchema } from "../schema/doctorSchema";
+import { ImageUpload } from "@/components/common/image-upload";
 
 interface DoctorFormProps {
   initialValue?: Doctor;
@@ -104,6 +105,13 @@ export const DoctorForm = ({
           required
           disabled={disabled}
         />
+        <Field>
+          <ImageUpload
+            label="Profile Image"
+            value={form.getValues("image_url")}
+            onChange={(url) => form.setValue("image_url", url)}
+          />
+        </Field>
         <InputArea
           form={form}
           name="bio"

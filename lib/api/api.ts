@@ -490,4 +490,12 @@ export const api = {
       );
     },
   },
+  uploads: {
+    image: async (formData: FormData) => {
+      return await baseAPi.post<{ url: string; filename: string }>(
+        END_POINTS.UPLOADS.IMAGE,
+        formData
+      );
+    },
+  },
 };

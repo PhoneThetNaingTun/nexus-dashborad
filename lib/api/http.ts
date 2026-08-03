@@ -138,6 +138,16 @@ class ApiClient {
   ): Promise<RequestInit> {
     const headers = { ...this.config.defaultHeaders };
 
+    // The browser must set multipart/form-data itself so it can include the
+    // boundary that matches the FormData body.
+    if (typeof FormData !== "undefined" && options.body instanceof FormData) {
+      Object.keys(headers).forEach((header) => {
+        if (header.toLowerCase() === "content-type") {
+          delete headers[header];
+        }
+      });
+    }
+
     // Add authentication token if available
     if (this.authConfig.tokenProvider) {
       const token = await this.authConfig.tokenProvider();
@@ -242,10 +252,17 @@ class ApiClient {
     data?: any,
     options?: RequestInit,
   ): Promise<ApiResponse<T>> {
+    const body =
+      typeof FormData !== "undefined" && data instanceof FormData
+        ? data
+        : data
+          ? JSON.stringify(data)
+          : undefined;
+
     return this.makeRequest<T>(endpoint, {
       ...options,
       method: "POST",
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
   }
 

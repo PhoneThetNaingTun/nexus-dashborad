@@ -5,6 +5,9 @@ export const END_POINTS = {
     LOGOUT: "/auth/logout",
     REFRESH: "/auth/refresh",
   },
+  UPLOADS: {
+    IMAGE: "/uploads/image",
+  },
   DOCTOR_TYPE: {
     LIST: "/doctor-types/list",
     CREATE: "/doctor-types/create",

@@ -16,6 +16,7 @@ interface DoctorViewProps {
 export const DoctorView = ({ data, pagination }: DoctorViewProps) => {
   const [{ search }, setParams] = useDoctorSearchParams();
   const [showDialog, setShowDialog] = useState<boolean>(false);
+
   return (
     <div>
       <DataTable

@@ -29,7 +29,21 @@ const DoctorDetail = async ({
 
   return (
     <div className="mt-3 space-y-3">
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <img
+            src={data.user.image || "/public/images/placeholder-avatar.png"}
+            alt={data.user.name}
+            className="h-20 w-20 rounded-full object-cover border-2 border-muted"
+            onError={(e) => {
+              (e.currentTarget.src = "/public/images/placeholder-avatar.png");
+            }}
+          />
+          <div>
+            <h1 className="text-2xl font-bold">{data.user.name}</h1>
+            <p className="text-muted-foreground">{data.type?.name}</p>
+          </div>
+        </div>
         <DoctorDialog mode="update" showTriggerButton data={data} />
       </div>
       <InfoGrid
